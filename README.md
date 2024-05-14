@@ -5,7 +5,7 @@ Overview:
 Features:
   -User-friendly Interface: The application provides a clean and intuitive interface for users to interact with.
 
-  -Multiplayer Mode: Challenge friends or other users online.
+  -Multiplayer Mode: Challenge friends or other users nearby.
 
   -Move Validation: Prevents illegal moves according to the rules of chess.
 
