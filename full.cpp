@@ -1,22 +1,8 @@
 #include <iostream>
-#include <graphics.h>
-#include <iostream>
-#include <iostream>
 #include <string>
 #include <iomanip>
+#include<graphics.h>
 using namespace std;
-
-string chessboard[8][8] = {
-    {"R", "H", "B", "Q", "K", "B", "H", "R"},
-    {"P", "P", "P", "P", "P", "P", "P", "P"},
-    {"__", "__", "__", "__", "__", "__", "__", "__"},
-    {"__", "__", "__", "__", "__", "__", "__", "__"},
-    {"__", "__", "__", "__", "__", "__", "__", "__"},
-    {"__", "__", "__", "__", "__", "__", "__", "__"},
-    {"p", "p", "p", "p", "p", "p", "p", "p"},
-    {"r", "h", "b", "q", "k", "b", "h", "r"}};
-
-int count = 1; // this will be even for user2 and odd for user1
 const int SQUARE_SIZE = 50; 
 
 
@@ -186,12 +172,12 @@ setcolor(WHITE);
 
     // Drawing white pieces
     outtextxy(left+25, top + 25, "R"); // Rook
-    outtextxy(left + 75, top + 25, "N"); // Knight
+    outtextxy(left + 75, top + 25, "H"); // Knight
     outtextxy(left + 125, top + 25, "B"); // Bishop
     outtextxy(left + 175, top + 25, "Q"); // Queen
     outtextxy(left + 225, top + 25, "K"); // King
     outtextxy(left + 275, top + 25, "B"); // Bishop
-    outtextxy(left + 325, top + 25, "N"); // Knight
+    outtextxy(left + 325, top + 25, "H"); // Knight
     outtextxy(left + 375, top + 25, "R"); // Rook
     // Drawing white pawns
     for (int i = 0; i < 8; ++i) {
@@ -200,12 +186,12 @@ setcolor(WHITE);
 
     // Drawing black pieces
     outtextxy(left + 25, top + 375, "r"); // Rook
-    outtextxy(left + 75, top + 375, "n"); // Knight
+    outtextxy(left + 75, top + 375, "h"); // Knight
     outtextxy(left + 125, top + 375, "b"); // Bishop
     outtextxy(left + 175, top + 375, "q"); // Queen
     outtextxy(left + 225, top + 375, "k"); // King
     outtextxy(left + 275, top + 375, "b"); // Bishop
-    outtextxy(left + 325, top + 375, "n"); // Knight
+    outtextxy(left + 325, top + 375, "h"); // Knight
     outtextxy(left + 375, top + 375, "r"); // Rook
     // Drawing black pawns
     for (int i = 0; i < 8; ++i) {
@@ -215,6 +201,66 @@ setcolor(WHITE);
     rectangle(50, 50, 450, 450); 
 	// Draw a border around the chessboard
 }
+
+
+string chessboard[8][8] = {
+    {"R", "H", "B", "Q", "K", "B", "H", "R"},
+    {"P", "P", "P", "P", "P", "P", "P", "P"},
+    {"__", "__", "__", "__", "__", "__", "__", "__"},
+    {"__", "__", "__", "__", "__", "__", "__", "__"},
+    {"__", "__", "__", "__", "__", "__", "__", "__"},
+    {"__", "__", "__", "__", "__", "__", "__", "__"},
+    {"p", "p", "p", "p", "p", "p", "p", "p"},
+    {"r", "h", "b", "q", "k", "b", "h", "r"}};
+
+// string chessboard[8][8] = {
+//     {"__", "__", "__", "__", "__", "__", "__", "__"},
+//     {"__", "__", "__", "__", "__", "__", "__", "__"},
+//     {"__", "__", "__", "__", "__", "K", "__", "__"},
+//     {"__", "__", "__", "__", "__", "__", "__", "__"},
+//     {"__", "__", "__", "__", "__", "__", "__", "__"},
+//     {"__", "__", "__", "__", "__", "__", "__", "__"},
+//     {"__", "__", "__", "__", "__", "__", "__", "__"},
+//     {"__", "__", "__", "__", "k", "__", "__", "__"}};
+
+// string chessboard[8][8] = {
+// {"R", "H", "B", "Q", "K", "B", "H", "R"},
+// {"__", "__", "__", "__", "__", "__", "__", "__"},
+// {"__", "__", "__", "__", "__", "__", "__", "__"},
+// {"__", "__", "__", "__", "__", "__", "__", "__"},
+// {"__", "__", "__", "__", "__", "__", "__", "__"},
+// {"__", "__", "__", "__", "__", "__", "__", "__"},
+// {"__", "__", "__", "__", "__", "__", "__", "__"},
+// {"r", "h", "b", "q", "k", "b", "h", "r"}};
+
+int count = 1; // this will be even for user2 and odd for user1
+
+// bool forKing(int r, int c, int r_m, int c_m , bool checkmateCall)
+// {
+//   if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
+//   {
+//     // ye user2 ke leye chlai ga
+//     if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__") // jis jga pr move krna hai uske leye check hu rha hai kai udr kya prha hai enemy hai ya empty space hai
+//     {
+//       // agr enemy ya empty space hai tu , humari move valid hugi
+//       return 1;
+//     }
+//     else // jb jis jga pr move krna hai agr waha apna he piece prha hua tu ye line of code chlai ga, aur invalid move ka kahai ga userku
+//       return 0;
+//   }
+//   else
+//   {
+//     // ye user1 ke leye hai
+//     if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
+//     {
+//       // same wohi user2 wali logic hai isme
+//      return 1;
+//     }
+//     else
+//       return 0;
+//   }
+
+// }
 
 class Board
 {
@@ -244,269 +290,428 @@ public:
     }
   }
 
-  void condition()
+  virtual bool validMove()
   {
+    return 1;
   }
 };
 
 class Pawn : public Board
 {
+public:
+  bool forPawn(int r, int c, int r_m, int c_m, bool e = 0)
+  {
+    if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
+    {
+      // ye user2 ke leye chlai ga
+      if (e)
+      {
+        if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z")) // jis jga pr move krna hai uske leye check hu rha hai kai udr kya prha hai enemy hai ya empty space hai
+        {
+          // agr enemy ya empty space hai tu , humari move valid hugi
+          chessboard[r_m][c_m] = "P";
+          chessboard[r][c] = "__";
+        }
+        else if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z"))
+        {
+          // agr enemy ya empty space hai tu , humari move valid hugi
+          chessboard[r_m][c_m] = "P";
+          chessboard[r][c] = "__";
+        }
+        else
+          return 0;
+      }
+      else if (chessboard[r_m][c_m] == "__")
+      {
+        chessboard[r_m][c_m] = "P";
+        chessboard[r][c] = "__";
+      }
+      else // jb jis jga pr move krna hai agr waha apna he piece prha hua tu ye line of code chlai ga, aur invalid move ka kahai ga userku
+        return 0;
+    }
+    else
+    {
+      // ye user1 ke leye hai
+      if (e)
+      {
+        if ((chessboard[r - 1][c - 1] > "A" && chessboard[r - 1][c - 1] < "Z")) // jis jga pr move krna hai uske leye check hu rha hai kai udr kya prha hai enemy hai ya empty space hai
+        {
+          // agr enemy ya empty space hai tu , humari move valid hugi
+          chessboard[r_m][c_m] = "p";
+          chessboard[r][c] = "__";
+        }
+        else if ((chessboard[r - 1][c + 1] > "A" && chessboard[r - 1][c + 1] < "Z"))
+        {
+          // agr enemy ya empty space hai tu , humari move valid hugi
+          chessboard[r_m][c_m] = "p";
+          chessboard[r][c] = "__";
+        }
+        else
+          return 0;
+      }
+      else if (chessboard[r_m][c_m] == "__")
+      {
+        chessboard[r_m][c_m] = "p";
+        chessboard[r][c] = "__";
+      }
+      else
+        return 0;
+    }
+    return 1;
+  }
+
+  virtual bool validMove(int r, int c, int r_m, int c_m)
+  {
+    if (count % 2 == 0) // for user2
+    {
+      if (r + 1 == r_m && c == c_m)
+      { // usuall move
+        return forPawn(r, c, r_m, c_m);
+      }
+      else if (r + 2 == r_m && c == c_m)
+      { // Only when it is moving first time
+        if (r == 1)
+        { // for user2 first pawn movement
+          return forPawn(r, c, r_m, c_m);
+        }
+        else
+          return 0;
+      }
+      else if (r + 1 == r_m && c - 1 == c_m)
+      { // when enemey is on the left side
+        bool e = 1;
+        return forPawn(r, c, r_m, c_m, e);
+      }
+      else if (r + 1 == r_m && c + 1 == c_m) // when enemey is on the right side
+      {
+        bool e = 1;
+        return forPawn(r, c, r_m, c_m, e);
+      }
+    }
+    else if (!(count % 2 == 0))
+    { // for user1
+      if (r - 1 == r_m && c == c_m)
+      { // usuall move
+        return forPawn(r, c, r_m, c_m);
+      }
+      else if (r - 2 == r_m && c == c_m)
+      { // Only when it is moving first time
+        if (r == 6)
+        { // for user1 first pawn movement
+          return forPawn(r, c, r_m, c_m);
+        }
+        else
+          return 0;
+      }
+      else if (r - 1 == r_m && c - 1 == c_m)
+      { // when enemey is on the left side
+        bool e = 1;
+        return forPawn(r, c, r_m, c_m, e);
+      }
+      else if (r - 1 == r_m && c + 1 == c_m) // when enemey is on the right side
+      {
+        bool e = 1;
+        return forPawn(r, c, r_m, c_m, e);
+      }
+    }
+    else
+    {
+      return 0;
+    }
+  }
 };
 class King : public Board
 {
+public:
+  bool forKing(int r, int c, int r_m, int c_m)
+  {
+    if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
+    {
+      // ye user2 ke leye chlai ga
+      if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__") // jis jga pr move krna hai uske leye check hu rha hai kai udr kya prha hai enemy hai ya empty space hai
+      {
+        // agr enemy ya empty space hai tu , humari move valid hugi
+        chessboard[r_m][c_m] = "K";
+        chessboard[r][c] = "__";
+      }
+      else // jb jis jga pr move krna hai agr waha apna he piece prha hua tu ye line of code chlai ga, aur invalid move ka kahai ga userku
+        return 0;
+    }
+    else
+    {
+      // ye user1 ke leye hai
+      if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
+      {
+        // same wohi user2 wali logic hai isme
+        chessboard[r_m][c_m] = "k";
+        chessboard[r][c] = "__";
+      }
+      else
+        return 0;
+    }
+    return 1;
+  }
+
+  virtual bool validMove(int r, int c, int r_m, int c_m)
+  {
+    if (r - 1 == r_m && c == c_m) // for up
+    {
+
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r + 1 == r_m && c == c_m) // for down
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r == r_m && c - 1 == c_m) // left
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r == r_m && c + 1 == c_m) // right
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r - 1 == r_m && c + 1 == c_m) // top diagonal right
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r - 1 == r_m && c - 1 == c_m) // top diagonal left
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r + 1 == r_m && c - 1 == c_m) // bottom diagonal left
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r + 1 == r_m && c + 1 == c_m) // bottom diagonal right
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else
+    {
+      return 0;
+    }
+  }
+
+  virtual bool validMove(int r, int c, int r_m, int c_m, bool checkmateCall)
+  {
+    if (r - 1 == r_m && c == c_m) // for up
+    {
+
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r + 1 == r_m && c == c_m) // for down
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r == r_m && c - 1 == c_m) // left
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r == r_m && c + 1 == c_m) // right
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r - 1 == r_m && c + 1 == c_m) // top diagonal right
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r - 1 == r_m && c - 1 == c_m) // top diagonal left
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r + 1 == r_m && c - 1 == c_m) // bottom diagonal left
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else if (r + 1 == r_m && c + 1 == c_m) // bottom diagonal right
+    {
+      return forKing(r, c, r_m, c_m);
+    }
+    else
+    {
+      return 0;
+    }
+  }
 };
 class Queen : public Board
 {
 public:
-  void validMoveQueen(int r, int c, int r_m, int c_m)
+  bool forQueen(int r, int c, int r_m, int c_m)
   {
-    if (r == r_m || c == c_m || abs(r_m - r) == abs(c_m - c))
+    if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
     {
-      // Move is along a row, column, or diagonal
-      chessboard[r_m][c_m] = "q";
-      chessboard[r][c] = "__";
-      cout << "Queen moved successfully." << endl;
+      // ye user2 ke leye chlai ga
+      if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__") // jis jga pr move krna hai uske leye check hu rha hai kai udr kya prha hai enemy hai ya empty space hai
+      {
+        // agr enemy ya empty space hai tu , humari move valid hugi
+        chessboard[r_m][c_m] = "Q";
+        chessboard[r][c] = "__";
+      }
+      else // jb jis jga pr move krna hai agr waha apna he piece prha hua tu ye line of code chlai ga, aur invalid move ka kahai ga userku
+        return 0;
     }
     else
     {
-      cout << "Invalid move. Queen can move along rows, columns, or diagonals." << endl;
+      // ye user1 ke leye hai
+      if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
+      {
+        // same wohi user2 wali logic hai isme
+        chessboard[r_m][c_m] = "q";
+        chessboard[r][c] = "__";
+      }
+      else
+        return 0;
     }
+    return 1;
   }
-  void board()
+ virtual bool validMove(int r, int c, int r_m, int c_m)
   {
-    displayBoard();
+    if (r - r_m == c - c_m)
+    {
+
+      return forQueen(r, c, r_m, c_m);
+    }
+    else if (r - r_m == c_m - c)
+    {
+      return forQueen(r, c, r_m, c_m);
+    }
+    else if (r_m - r == c - c_m)
+    {
+
+      return forQueen(r, c, r_m, c_m);
+    }
+    else if (r_m - r == c_m - c)
+
+    {
+      return forQueen(r, c, r_m, c_m);
+    }
+    else if (r == r_m || c == c_m) // this conditon is valid for all the movements of rook.
+    {
+
+      return forQueen(r, c, r_m, c_m);
+    }
+    else
+      return 0;
   }
 };
 class Rook : protected Board
 {
 public:
-  void validMoveRook(int r, int c, int r_m, int c_m)
+  bool forRook(int r, int c, int r_m, int c_m)
   {
-    if (r == r_m || c == c_m)
+    if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
     {
-      // Move is along a row or column
-      chessboard[r_m][c_m] = "r";
-      chessboard[r][c] = "__";
-      cout << "Rook moved successfully." << endl;
+      // ye user2 ke leye chlai ga
+      if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__") // jis jga pr move krna hai uske leye check hu rha hai kai udr kya prha hai enemy hai ya empty space hai
+      {
+        // agr enemy ya empty space hai tu , humari move valid hugi
+        chessboard[r_m][c_m] = "R";
+        chessboard[r][c] = "__";
+      }
+      else // jb jis jga pr move krna hai agr waha apna he piece prha hua tu ye line of code chlai ga, aur invalid move ka kahai ga userku
+        return 0;
+    }
+    else
+    {
+      // ye user1 ke leye hai
+      if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
+      {
+        // same wohi user2 wali logic hai isme
+        chessboard[r_m][c_m] = "r";
+        chessboard[r][c] = "__";
+      }
+      else
+        return 0;
+    }
+    return 1;
+  }
+  virtual bool validMove(int r, int c, int r_m, int c_m)
+  {
+    if (r == r_m || c == c_m) // this conditon is valid for all the movements of rook.
+    {
+      return forRook(r, c, r_m, c_m);
     }
     else
     {
       cout << "Invalid move. Rook can only move along rows or columns." << endl;
+      return 0;
     }
-  }
-
-  void board()
-  {
-    displayBoard();
   }
 };
 class Knight : protected Board
 {
 
 public:
-  bool validMoveHorse(int r, int c, int r_m, int c_m)
+  bool forKnight(int r, int c, int r_m, int c_m)
+  {
+    if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
+    {
+      // ye user2 ke leye chlai ga
+      if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__") // jis jga pr move krna hai uske leye check hu rha hai kai udr kya prha hai enemy hai ya empty space hai
+      {
+        // agr enemy ya empty space hai tu , humari move valid hugi
+        chessboard[r_m][c_m] = "H";
+        chessboard[r][c] = "__";
+      }
+      else // jb jis jga pr move krna hai agr waha apna he piece prha hua tu ye line of code chlai ga, aur invalid move ka kahai ga userku
+        return 0;
+    }
+    else
+    {
+      // ye user1 ke leye hai
+      if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
+      {
+        // same wohi user2 wali logic hai isme
+        chessboard[r_m][c_m] = "h";
+        chessboard[r][c] = "__";
+      }
+      else
+        return 0;
+    }
+    return 1;
+  }
+ virtual bool validMoveHorse(int r, int c, int r_m, int c_m)
   {
     if (r - 1 == r_m && c + 2 == c_m)
     {
-      if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
-      {
-        // ye user2 ke leye chlai ga
-        if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__")// jis jga pr move krna hai uske leye check hu rha hai kai udr kya prha hai enemy hai ya empty space hai 
-        {
-          // agr enemy ya empty space hai tu , humari move valid hugi
-          chessboard[r_m][c_m] = "H";
-          chessboard[r][c] = "__";
-        }
-        else // jb jis jga pr move krna hai agr waha apna he piece prha hua tu ye line of code chlai ga, aur invalid move ka kahai ga userku
-          return 0;
-      }
-      else
-      {
-        //ye user1 ke leye hai 
-        if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
-        {
-        // same wohi user2 wali logic hai isme 
-          chessboard[r_m][c_m] = "h";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      return 1;
-    }// baki else if be same hai , bs main condition mai difference hai
+
+      return forKnight(r, c, r_m, c_m);
+    } // baki else if be same hai , bs main condition mai difference hai
     else if (r + 1 == r_m && c + 2 == c_m)
     {
-      
-      if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
-      {
-        if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "H";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      else
-      {
-        if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "h";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      return 1;
+
+      return forKnight(r, c, r_m, c_m);
     }
     else if (r - 2 == r_m && c + 1 == c_m)
     {
-      
-      if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
-      {
-        if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "H";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      else
-      {
-        if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "h";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      return 1;
+
+      return forKnight(r, c, r_m, c_m);
     }
     else if (r - 2 == r_m && c - 1 == c_m)
     {
-     
-      if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
-      {
-        if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "H";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      else
-      {
-        if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "h";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      return 1;
+
+      return forKnight(r, c, r_m, c_m);
     }
     else if (r - 1 == r_m && c - 2 == c_m)
     {
-     if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
-      {
-        if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "H";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      else
-      {
-        if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "h";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      return 1;
+
+      return forKnight(r, c, r_m, c_m);
     }
     else if (r + 1 == r_m && c - 2 == c_m)
     {
-      
-     if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
-      {
-        if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "H";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      else
-      {
-        if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "h";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      return 1;
+
+      return forKnight(r, c, r_m, c_m);
     }
     else if (r + 2 == r_m && c - 1 == c_m)
     {
-      
-      if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
-      {
-        if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "H";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      else
-      {
-        if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "h";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      return 1;
+
+      return forKnight(r, c, r_m, c_m);
     }
     else if (r + 2 == r_m && c + 1 == c_m)
     {
-     
-      if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
-      {
-        if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "H";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      else
-      {
-        if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
-        {
-          chessboard[r_m][c_m] = "h";
-          chessboard[r][c] = "__";
-        }
-        else
-          return 0;
-      }
-      return 1;
+
+      return forKnight(r, c, r_m, c_m);
     }
     else
     {
@@ -519,37 +724,54 @@ public:
 class Bishop : public Board
 {
 public:
-  void validMoveBishop(int r, int c, int r_m, int c_m)
+  bool forBishop(int r, int c, int r_m, int c_m)
   {
-    // Check if the move is diagonal
-    if (abs(r_m - r) != abs(c_m - c))
+    if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
     {
-      cout << "Invalid move. Bishop can only move diagonally." << endl;
-      return;
-    }
-
-    // Determine direction of movement
-    int dr = (r_m - r > 0) ? 1 : -1;
-    int dc = (c_m - c > 0) ? 1 : -1;
-    // agr 1 to downward movement osy trha bqe .....yah row ka lia
-    //  Check for obstacles along the diagonal path
-    int rr = r + dr;
-    int cc = c + dc;
-    while (rr != r_m && cc != c_m)
-    {
-      if (chessboard[rr][cc] != "__")
+      // ye user2 ke leye chlai ga
+      if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__") // jis jga pr move krna hai uske leye check hu rha hai kai udr kya prha hai enemy hai ya empty space hai
       {
-        // Path is blocked
-        cout << "Invalid move. Path is blocked." << endl;
-        return;
+        // agr enemy ya empty space hai tu , humari move valid hugi
+        chessboard[r_m][c_m] = "B";
+        chessboard[r][c] = "__";
       }
-      rr += dr;
-      cc += dc;
+      else // jb jis jga pr move krna hai agr waha apna he piece prha hua tu ye line of code chlai ga, aur invalid move ka kahai ga userku
+        return 0;
     }
-
-    // Move bishop if path is clear
-    chessboard[r_m][c_m] = "b";
-    chessboard[r][c] = "__";
+    else
+    {
+      // ye user1 ke leye hai
+      if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
+      {
+        // same wohi user2 wali logic hai isme
+        chessboard[r_m][c_m] = "b";
+        chessboard[r][c] = "__";
+      }
+      else
+        return 0;
+    }
+    return 1;
+  }
+  virtual bool validMove(int r, int c, int r_m, int c_m)
+  {
+    if (r - r_m == c - c_m)
+    {
+      return forBishop(r, c, r_m, c_m);
+    }
+    else if (r - r_m == c_m - c)
+    {
+      return forBishop(r, c, r_m, c_m);
+    }
+    else if (r_m - r == c - c_m)
+    {
+      return forBishop(r, c, r_m, c_m);
+    }
+    else if (r_m - r == c_m - c)
+    {
+      return forBishop(r, c, r_m, c_m);
+    }
+    else
+      return 0;
   }
 };
 class Player : public Board
@@ -561,6 +783,8 @@ private:
   Bishop b;
   Rook r;
   Queen q;
+  Pawn p;
+  King k;
 
 public:
   Player()
@@ -615,7 +839,7 @@ public:
       {
         if (chessboard[row][col] > "a" && chessboard[row][col] < "z") // small letter piece recognition ke leye
         {
-          flag = 0; // ye user1 ke leye hai 
+          flag = 0; // ye user1 ke leye hai
         }
         else
         {
@@ -626,7 +850,6 @@ public:
         }
       }
     } while (flag);
-    
   }
 
   void move_piece()
@@ -648,30 +871,51 @@ public:
     {
       if (h.validMoveHorse(row, col, row_m, col_m))
       {
-        return 1; 
+        return 1;
       }
       else
       {
-        return 0; // ye invalid move ke surat mai huga aur 0 return huga , aur goto statement ke help se input dobara leya jai user se 
+        return 0; // ye invalid move ke surat mai huga aur 0 return huga , aur goto statement ke help se input dobara leya jai user se
       }
     }
     else if (chessboard[row][col] == "R" || chessboard[row][col] == "r")
     {
-      r.validMoveRook(row, col, row_m, col_m);
+      if (r.validMove(row, col, row_m, col_m))
+      {
+        return 1;
+      }
+      else
+      {
+        return 0;
+      }
     }
     else if (chessboard[row][col] == "Q" || chessboard[row][col] == "q")
     {
-      q.validMoveQueen(row, col, row_m, col_m);
+      if (q.validMove(row, col, row_m, col_m))
+        return 1;
+      else
+        return 0;
     }
     else if (chessboard[row][col] == "B" || chessboard[row][col] == "b")
     {
-      b.validMoveBishop(row, col, row_m, col_m);
+      if (b.validMove(row, col, row_m, col_m))
+        return 1;
+      else
+        return 0;
     }
     else if (chessboard[row][col] == "P" || chessboard[row][col] == "p")
     {
+      if (p.validMove(row, col, row_m, col_m))
+        return 1;
+      else
+        return 0;
     }
     else if (chessboard[row][col] == "K" || chessboard[row][col] == "k")
     {
+      if (k.validMove(row, col, row_m, col_m))
+        return 1;
+      else
+        return 0;
     }
     else
     {
@@ -679,20 +923,98 @@ public:
     }
   }
 
+  bool draw()
+  {
+
+    int whiteKingCount = 0;
+    int blackKingCount = 0;
+
+    for (int i = 0; i < 8; i++)
+    {
+      for (int j = 0; j < 8; j++)
+      {
+        if (chessboard[i][j] == "K")
+        {
+          whiteKingCount++;
+        }
+        else if (chessboard[i][j] == "k")
+        {
+          blackKingCount++;
+        }
+        else if (chessboard[i][j] != "__")
+        {
+          // If there's any piece other than empty or the two kings, it's not a draw
+          return false;
+        }
+      }
+    }
+
+    if (whiteKingCount == 1 && blackKingCount == 1)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  bool Checkmate()
+  {
+    if (count % 2 == 0)
+    {
+
+      for (int i = 0; i < 8; i++)
+      {
+        for (int j = 0; j < 8; j++)
+        {
+
+          if (chessboard[i][j] == "K")
+          {
+            if (k.validMove(i, j, i - 1, j, 1) && k.validMove(i, j, i + 1, j, 1) && k.validMove(i, j, i, j - 1, 1) && k.validMove(i, j, i, j + 1, 1) && k.validMove(i, j, i - 1, j + 1, 1) && k.validMove(i, j, i - 1, j - 1, 1) && k.validMove(i, j, i + 1, j - 1, 1) && k.validMove(i, j, i + 1, j + 1, 1))
+            {
+              return true;
+            }
+            else
+              return false;
+          }
+        }
+      }
+    }
+    else
+    {
+      for (int i = 0; i < 8; i++)
+      {
+        for (int j = 0; j < 8; j++)
+        {
+
+          if (chessboard[i][j] == "k")
+          {
+            if (k.validMove(i, j, i - 1, j, 1) && k.validMove(i, j, i + 1, j, 1) && k.validMove(i, j, i, j - 1, 1) && k.validMove(i, j, i, j + 1, 1) && k.validMove(i, j, i - 1, j + 1, 1) && k.validMove(i, j, i - 1, j - 1, 1) && k.validMove(i, j, i + 1, j - 1, 1) && k.validMove(i, j, i + 1, j + 1, 1))
+            {
+              return true;
+            }
+            else
+              return false;
+          }
+        }
+      }
+    }
+  }
   friend ostream &operator<<(ostream &output, const Player &p)
   {
     output << p.userName << " turn.";
   }
 };
-bool checkmate(const Player &obj)
-{
 
-  return 1;
-}
-int main() {
-	 Board obj;
+int main()
+{
+  bool checkmate = 0;
+  int draw;
+  Board obj;
   cout << "\n----------------------------Welcome--------------------------------" << endl;
-    initwindow(500, 500, "Chess Board");
+  obj.displayBoard();
+  initwindow(500, 500, "Chess Board");
  	drawStartPage(); // Draw start page
     
     getch(); // Wait for user input
@@ -711,9 +1033,7 @@ int main() {
     drawUpdatedChessBoard();
 
   
-	 bool checkmate = 1;
- 
-  obj.displayBoard();
+	
   // small letter pieces is for user1
   // Capital letter pieces is for user2
   Player user1("Hamza"), user2("SibghatUllah");
@@ -722,6 +1042,7 @@ int main() {
   {
     cout << "\n"
          << user1 << endl;
+    draw = user1.draw();
   again:
     user1.selection_piece();
     user1.move_piece();
@@ -733,10 +1054,12 @@ int main() {
     }
 
     user1.displayBoard();
-    drawUpdatedChessBoard();
-    ++count; // count mai increament kr ke uski value ku even bna dai ga 
-    if (checkmate == 0) // checkmate ke condition abhi dalni hai baad mai
+
+    // checkmate = user1.Checkmate();
+    ++count;                                   // count mai increament kr ke uski value ku even bna dai ga
+    if (checkmate == 1 || (user1.draw() == 1)) // checkmate ke condition abhi dalni hai baad mai
     {
+
       break;
     }
     cout << "\n"
@@ -746,19 +1069,21 @@ int main() {
     user2.move_piece();
 
     if (!(user2.chk_peice()))
-    {// same upr wali logic he hai ismai bhi
+    { // same upr wali logic he hai ismai bhi
       cout << "\nRe-Enter:";
       goto again1;
     }
 
     user2.displayBoard();
-    drawUpdatedChessBoard();
-    ++count; // count mai increament kr ke uski value ku odd bna dai ga 
-  } while (checkmate);// checkmate ke condition abhi dalni hai baad mai
-  
-  
-  
-    getch(); // Wait for a key press before closing the window
+    // checkmate = user2.Checkmate();
+    ++count; // count mai increament kr ke uski value ku odd bna dai ga
+  } while (!(checkmate) && !(user2.draw() == 1)); // checkmate ke condition abhi dalni hai baad mai
+
+  if (draw)
+  {
+    cout << "\nNo One Wins. \n\tGame is Draw.";
+  }
+  getch(); // Wait for a key press before closing the window
     closegraph();
-    return 0;
+  return 0;
 }
