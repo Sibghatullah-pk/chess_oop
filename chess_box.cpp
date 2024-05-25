@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <fstream>
 using namespace std;
 
 string chessboard[8][8] = {
@@ -34,33 +35,6 @@ string chessboard[8][8] = {
 // {"r", "h", "b", "q", "k", "b", "h", "r"}};
 
 int count = 1; // this will be even for user2 and odd for user1
-
-// bool forKing(int r, int c, int r_m, int c_m , bool checkmateCall)
-// {
-//   if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
-//   {
-//     // ye user2 ke leye chlai ga
-//     if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__") // jis jga pr move krna hai uske leye check hu rha hai kai udr kya prha hai enemy hai ya empty space hai
-//     {
-//       // agr enemy ya empty space hai tu , humari move valid hugi
-//       return 1;
-//     }
-//     else // jb jis jga pr move krna hai agr waha apna he piece prha hua tu ye line of code chlai ga, aur invalid move ka kahai ga userku
-//       return 0;
-//   }
-//   else
-//   {
-//     // ye user1 ke leye hai
-//     if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
-//     {
-//       // same wohi user2 wali logic hai isme
-//      return 1;
-//     }
-//     else
-//       return 0;
-//   }
-
-// }
 
 class Board
 {
@@ -293,6 +267,31 @@ public:
     }
   }
 
+  bool forKing(int r, int c, int r_m, int c_m, bool checkmateCall)
+  {
+    if (count % 2 == 0) // condition to check who is playing if its true; meaning user2 is playing and if it is false ; meaning user1 is playing
+    {
+      // ye user2 ke leye chlai ga
+      if ((chessboard[r_m][c_m] > "a" && chessboard[r_m][c_m] < "z") || chessboard[r_m][c_m] == "__") // jis jga pr move krna hai uske leye check hu rha hai kai udr kya prha hai enemy hai ya empty space hai
+      {
+        // agr enemy ya empty space hai tu , humari move valid hugi
+        return 1;
+      }
+      else // jb jis jga pr move krna hai agr waha apna he piece prha hua tu ye line of code chlai ga, aur invalid move ka kahai ga userku
+        return 0;
+    }
+    else
+    {
+      // ye user1 ke leye hai
+      if ((chessboard[r_m][c_m] > "A" && chessboard[r_m][c_m] < "Z") || chessboard[r_m][c_m] == "__")
+      {
+        // same wohi user2 wali logic hai isme
+        return 1;
+      }
+      else
+        return 0;
+    }
+  }
   virtual bool validMove(int r, int c, int r_m, int c_m, bool checkmateCall)
   {
     if (r - 1 == r_m && c == c_m) // for up
@@ -365,7 +364,7 @@ public:
     }
     return 1;
   }
- virtual bool validMove(int r, int c, int r_m, int c_m)
+  virtual bool validMove(int r, int c, int r_m, int c_m)
   {
     if (r - r_m == c - c_m)
     {
@@ -471,7 +470,7 @@ public:
     }
     return 1;
   }
- virtual bool validMoveHorse(int r, int c, int r_m, int c_m)
+  virtual bool validMove(int r, int c, int r_m, int c_m)
   {
     if (r - 1 == r_m && c + 2 == c_m)
     {
@@ -578,7 +577,7 @@ class Player : public Board
 {
 private:
   string userName;
-  int row, col, row_m, col_m;
+  int row, col, row_m, col_m, score;
   Knight h;
   Bishop b;
   Rook r;
@@ -595,12 +594,26 @@ public:
 
     row_m = 0;
     col_m = 0;
+
+    score = 0;
   }
   Player(string name)
   {
     userName = name;
+    score = 0;
   }
-  void set_entireDate()
+
+  void set_score(int score)
+  {
+    this->score = score;
+  }
+
+  int get_score()
+  {
+    return score;
+  }
+
+  void set_entireData()
   {
     cout << "\nEnter Your User Name:";
     getline(cin, userName);
@@ -612,12 +625,21 @@ public:
     bool flag;
     do
     {
-      cout << "\nTo move your Desired Piece , Enter the Piece location according to the label:";
-      cout << "\nEnter row number:";
-      cin >> row; // 8
-      cout << "\nEnter coloumn number:";
-      cin >> col; // 7
-
+     do{
+        cout << "\nTo move your Desired Piece , Enter the Piece location according to the label:";
+        cout << "\nEnter row number:";
+        if(!(cin >> row)){ // Check if input is a number
+            cout << "Invalid input. Please enter a number." << endl;
+            cin.clear(); // Clear the input buffer
+            cin.ignore(10000, '\n'); // Ignore any remaining characters in the buffer
+        }
+        cout << "\nEnter column number:";
+        if(!(cin >> col)){ // Check if input is a number
+            cout << "Invalid input. Please enter a number." << endl;
+            cin.clear(); // Clear the input buffer
+            cin.ignore(10000, '\n'); // Ignore any remaining characters in the buffer
+        }
+    } while((row < 1 || row > 8) || (col < 1 || col > 8));
       row = row - 1; // 7
       col = col - 1; // 6
 
@@ -654,22 +676,32 @@ public:
 
   void move_piece()
   {
-
-    cout << "\nEnter the location to where you want to move the piece:";
-    cout << "\nEnter row number:";
-    cin >> row_m; // 6
-    cout << "\nEnter coloumn number:";
-    cin >> col_m; // 8
+do{
+        cout << "\nEnter the location to where you want to move the piece:";
+        cout << "\nEnter row number:";
+        if(!(cin >> row_m)){ // Check if input is a number
+            cout << "Invalid input. Please enter a number." << endl;
+            cin.clear(); // Clear the input buffer
+            cin.ignore(10000, '\n'); // Ignore any remaining characters in the buffer
+        }
+        cout << "\nEnter column number:";
+        if(!(cin >> col_m)){ // Check if input is a number
+            cout << "Invalid input. Please enter a number." << endl;
+            cin.clear(); // Clear the input buffer
+            cin.ignore(10000, '\n'); // Ignore any remaining characters in the buffer
+        }
+    } while((row_m < 1 || row_m > 8) || (col_m < 1 || col_m > 8));
+    
 
     row_m = row_m - 1; // 5
     col_m = col_m - 1; // 7
   }
 
-  bool chk_peice()
+  bool check_piece()
   {
     if (chessboard[row][col] == "H" || chessboard[row][col] == "h")
     {
-      if (h.validMoveHorse(row, col, row_m, col_m))
+      if (h.validMove(row, col, row_m, col_m))
       {
         return 1;
       }
@@ -726,8 +758,8 @@ public:
   bool draw()
   {
 
-    int whiteKingCount = 0;
-    int blackKingCount = 0;
+    int UpperCaseKingCount = 0;
+    int LowerCaseKingCount = 0;
 
     for (int i = 0; i < 8; i++)
     {
@@ -735,11 +767,11 @@ public:
       {
         if (chessboard[i][j] == "K")
         {
-          whiteKingCount++;
+          UpperCaseKingCount++;
         }
         else if (chessboard[i][j] == "k")
         {
-          blackKingCount++;
+          LowerCaseKingCount++;
         }
         else if (chessboard[i][j] != "__")
         {
@@ -749,7 +781,7 @@ public:
       }
     }
 
-    if (whiteKingCount == 1 && blackKingCount == 1)
+    if (UpperCaseKingCount == 1 && LowerCaseKingCount == 1)
     {
       return true;
     }
@@ -809,6 +841,9 @@ public:
 
 int main()
 {
+  ifstream read;
+  ofstream write;
+
   bool checkmate = 0;
   int draw;
   Board obj;
@@ -827,7 +862,7 @@ int main()
     user1.selection_piece();
     user1.move_piece();
 
-    if (!(user1.chk_peice())) // agr ye chk_piece() 0 return krta hai tu tb ye block of code chlai ga , 0 ka mtlb invalid move hai
+    if (!(user1.check_piece())) // agr ye chk_piece() 0 return krta hai tu tb ye block of code chlai ga , 0 ka mtlb invalid move hai
     {
       cout << "\nRe-Enter:";
       goto again; // invalid move ke wja se fer se  user1.selection_piece(); line se code dubara chalai ga
@@ -839,7 +874,32 @@ int main()
     ++count;                                   // count mai increament kr ke uski value ku even bna dai ga
     if (checkmate == 1 || (user1.draw() == 1)) // checkmate ke condition abhi dalni hai baad mai
     {
+      if (checkmate)
+      {
+        cout << "\nCheckmate," << user1 << "Wins.";
+        checkmate = 0; // idr zero isleye keya hai kuinke , jab break hu kai bahir jai ga tu udr ju if lga hai wu na chalai , user2 wla
 
+        int a;
+        read.open("usr2.txt"); // Cutting -1 point for user2 for losing game
+        read >> a;
+        a -= 1;
+        user2.set_score(a);
+        read.close();
+
+        write.open("usr2.txt");
+        write << a; // adding user1 score to the text file
+        write.close();
+
+        int s; // adding 1 point for user2 for winning the game
+        read.open("usr1.txt");
+        read >> s;
+        read.close();
+        s += 1;
+        user1.set_score(s);
+        write.open("usr1.txt");
+        write << s;
+        write.close();
+      }
       break;
     }
     cout << "\n"
@@ -848,7 +908,7 @@ int main()
     user2.selection_piece();
     user2.move_piece();
 
-    if (!(user2.chk_peice()))
+    if (!(user2.check_piece()))
     { // same upr wali logic he hai ismai bhi
       cout << "\nRe-Enter:";
       goto again1;
@@ -858,6 +918,32 @@ int main()
     // checkmate = user2.Checkmate();
     ++count; // count mai increament kr ke uski value ku odd bna dai ga
   } while (!(checkmate) && !(user2.draw() == 1)); // checkmate ke condition abhi dalni hai baad mai
+
+  if (checkmate)
+  {
+    cout << "\nCheckmate," << user2 << "Wins.";
+
+    int a;
+    read.open("usr1.txt"); // Cutting -1 point for user1 for losing game
+    read >> a;
+    a -= 1;
+    user1.set_score(a);
+    read.close();
+
+    write.open("usr1.txt");
+    write << a; // adding user1 score to the text file
+    write.close();
+
+    int s; // adding 1 point for user2 for winning the game
+    read.open("usr2.txt");
+    read >> s;
+    read.close();
+    s += 1;
+    user2.set_score(s);
+    write.open("usr2.txt");
+    write << s;
+    write.close();
+  }
 
   if (draw)
   {
